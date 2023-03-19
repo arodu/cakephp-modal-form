@@ -6,12 +6,12 @@ namespace ModalForm\View\Helper;
 
 use Cake\Utility\Text;
 use Cake\View\Helper;
-use Cake\View\View;
 use ModalForm\ModalFormPlugin;
 
 /**
  * FormModal helper
  * 
+ * @property \Cake\View\Helper\FormHelper $Form
  * @property \Cake\View\Helper\HtmlHelper $Html
  * @property \Cake\View\Helper\UrlHelper $Url
  */
@@ -22,7 +22,7 @@ class ModalFormHelper extends Helper
      *
      * @var array
      */
-    protected $helpers = ['Html', 'Url'];
+    protected $helpers = ['Form', 'Html', 'Url'];
 
     /**
      * Default configuration.
@@ -42,8 +42,20 @@ class ModalFormHelper extends Helper
         let modal = $(this)
         modal.find('form').prop('action', button.data('url'));
         modal.find('.message').html(button.data('confirm'));
+        modal.find('.modal-title').html(button.data('title'));
     })
     MODAL_SCRIPT;
+
+    protected $modalScriptSubmit = <<<MODAL_SCRIPT_SUBMIT
+    $('#:target').on('show.bs.modal', function(event) {
+        //let button = $(event.relatedTarget)
+        //let modal = $(this)
+        //modal.find('form').prop('action', button.data('url'));
+        //modal.find('.message').html(button.data('confirm'));
+        //modal.find('.modal-title').html(button.data('title'));
+        //modal.find('form').submit();
+    })
+    MODAL_SCRIPT_SUBMIT;
 
     /**
      * Creates a Bootstrap modal.
@@ -96,10 +108,26 @@ class ModalFormHelper extends Helper
         $options['data-toggle'] = 'modal';
         $options['data-target'] = '#' . $options['target'];
         unset($options['target']);
-        $options['data-confirm'] = $options['confirm'] ?? null;
+        $options['data-confirm'] = $options['confirm'] ?? $options['data-confirm'] ?? null;
         unset($options['confirm']);
+        $options['data-title'] = $options['title'] ?? $options['data-title'] ?? null;
+        unset($options['title']);
 
         return $this->Html->link($title, '#', $options);
+    }
+
+    public function submit($caption = null, array $options = []): string
+    {
+        //$options['data-url'] = $this->Url->build($options['url'] ?? null);
+        //$options['data-toggle'] = 'modal';
+        //$options['data-target'] = '#' . $options['target'];
+        //unset($options['target']);
+        //$options['data-confirm'] = $options['confirm'] ?? $options['data-confirm'] ?? null;
+        //unset($options['confirm']);
+        //$options['data-title'] = $options['title'] ?? $options['data-title'] ?? null;
+        //unset($options['title']);
+
+        return $this->Form->submit($caption, $options);
     }
 
     protected function defaultContentData($element): array
