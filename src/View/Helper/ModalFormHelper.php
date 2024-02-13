@@ -22,14 +22,14 @@ class ModalFormHelper extends Helper
      *
      * @var array
      */
-    protected $helpers = ['Form', 'Html', 'Url'];
+    protected array $helpers = ['Form', 'Html', 'Url'];
 
     /**
      * Default configuration.
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'element' => ModalFormPlugin::FORM_CHECKBOX,
         'modalScript' => null,
         'content' => [],
