@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace ModalForm\Middleware;
@@ -21,7 +20,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class ModalFormMiddleware implements MiddlewareInterface
 {
-
     protected $_validators = [
         ModalFormPlugin::VALIDATOR_PASSWORD => PasswordValidator::class,
         ModalFormPlugin::VALIDATOR_CHECKBOX => CheckboxValidator::class,
@@ -49,6 +47,14 @@ class ModalFormMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    /**
+     * Loads the validator matching the submitted modal form data.
+     *
+     * @param \Cake\Http\ServerRequest $request The request.
+     * @param array $modalFormData The modal form data.
+     * @return \ModalForm\Validator\ValidatorInterface
+     * @throws \Cake\Http\Exception\NotFoundException When the validator is unknown.
+     */
     protected function loadValidator(ServerRequest $request, array $modalFormData = []): ValidatorInterface
     {
         $validator = $this->_validators[$modalFormData['validator']] ?? null;
@@ -57,7 +63,7 @@ class ModalFormMiddleware implements MiddlewareInterface
             // @todo custom exception
             throw new \Cake\Http\Exception\NotFoundException();
         }
-        
+
         return new $validator($request, $modalFormData);
     }
 }
