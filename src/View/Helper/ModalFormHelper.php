@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace ModalForm\View\Helper;
@@ -10,7 +9,7 @@ use ModalForm\ModalFormPlugin;
 
 /**
  * FormModal helper
- * 
+ *
  * @property \Cake\View\Helper\FormHelper $Form
  * @property \Cake\View\Helper\HtmlHelper $Html
  * @property \Cake\View\Helper\UrlHelper $Url
@@ -102,6 +101,14 @@ class ModalFormHelper extends Helper
         return $modal;
     }
 
+    /**
+     * Creates a link that opens a modal.
+     *
+     * @param string $title The link text.
+     * @param mixed $url The URL the modal form will submit to.
+     * @param array<string, mixed> $options Array of options and HTML attributes.
+     * @return string
+     */
     public function link($title, $url = null, array $options = []): string
     {
         $options['data-url'] = $this->Url->build($url);
@@ -116,6 +123,13 @@ class ModalFormHelper extends Helper
         return $this->Html->link($title, '#', $options);
     }
 
+    /**
+     * Creates a submit button for the modal form.
+     *
+     * @param string|null $caption The button caption.
+     * @param array<string, mixed> $options Array of options and HTML attributes.
+     * @return string
+     */
     public function submit($caption = null, array $options = []): string
     {
         //$options['data-url'] = $this->Url->build($options['url'] ?? null);
@@ -130,6 +144,12 @@ class ModalFormHelper extends Helper
         return $this->Form->submit($caption, $options);
     }
 
+    /**
+     * Returns the default content data for a given modal element.
+     *
+     * @param string $element The modal element name.
+     * @return array
+     */
     protected function defaultContentData($element): array
     {
         $content = [
@@ -154,7 +174,7 @@ class ModalFormHelper extends Helper
                     return Text::insert('Type <code>:textConfirm</code> to confirm', ['textConfirm' => $content['textConfirm']]);
                 };
                 break;
-            case ModalFormPlugin::FORM_TIMER: 
+            case ModalFormPlugin::FORM_TIMER:
                 $content['timer'] = 10; // time in seconds
                 break;
         }
@@ -162,6 +182,12 @@ class ModalFormHelper extends Helper
         return $content;
     }
 
+    /**
+     * Resolves the modal label from a string or callable.
+     *
+     * @param array $content The content data.
+     * @return string|null
+     */
     protected function getLabel($content): ?string
     {
         $label = $content['label'] ?? null;
