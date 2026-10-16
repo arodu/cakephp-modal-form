@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ModalForm\Test\TestCase\Validator;
 
+use ArrayObject;
 use Authentication\Identity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Http\ServerRequest;
@@ -45,10 +46,10 @@ class ValidatorsTest extends TestCase
     public function testTextInputValidator(): void
     {
         $this->assertTrue(
-            (new TextInputValidator(new ServerRequest(), ['confirm' => 'abc', 'input' => 'abc']))->isValid()
+            (new TextInputValidator(new ServerRequest(), ['confirm' => 'abc', 'input' => 'abc']))->isValid(),
         );
         $this->assertFalse(
-            (new TextInputValidator(new ServerRequest(), ['confirm' => 'abc', 'input' => 'xyz']))->isValid()
+            (new TextInputValidator(new ServerRequest(), ['confirm' => 'abc', 'input' => 'xyz']))->isValid(),
         );
     }
 
@@ -57,7 +58,7 @@ class ValidatorsTest extends TestCase
      */
     public function testPasswordValidator(): void
     {
-        $user = new \ArrayObject(['password' => (new DefaultPasswordHasher())->hash('secret')], \ArrayObject::ARRAY_AS_PROPS);
+        $user = new ArrayObject(['password' => (new DefaultPasswordHasher())->hash('secret')], ArrayObject::ARRAY_AS_PROPS);
 
         $request = (new ServerRequest(['environment' => ['REQUEST_METHOD' => 'POST']]))
             ->withAttribute('identity', new Identity($user));

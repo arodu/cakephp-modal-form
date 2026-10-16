@@ -32,7 +32,9 @@ class ModalFormHelperTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Plugin::getCollection()->add(new ModalFormPlugin());
+        if (!Plugin::getCollection()->has('ModalForm')) {
+            Plugin::getCollection()->add(new ModalFormPlugin());
+        }
         $request = new ServerRequest(['url' => '/tutors/index']);
         Router::setRequest($request);
         $view = new View($request);
@@ -128,7 +130,7 @@ class ModalFormHelperTest extends TestCase
         $this->assertNull($method->invoke($this->ModalForm, []));
         $this->assertSame(
             'Type <code>abc</code> to confirm',
-            $method->invoke($this->ModalForm, ['label' => fn(array $content) => 'Type <code>' . $content['textConfirm'] . '</code> to confirm', 'textConfirm' => 'abc'])
+            $method->invoke($this->ModalForm, ['label' => fn(array $content) => 'Type <code>' . $content['textConfirm'] . '</code> to confirm', 'textConfirm' => 'abc']),
         );
     }
 }
