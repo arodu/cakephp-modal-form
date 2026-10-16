@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ModalForm\Middleware;
 
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
 use ModalForm\ModalFormPlugin;
 use ModalForm\Validator\CheckboxValidator;
@@ -20,7 +21,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class ModalFormMiddleware implements MiddlewareInterface
 {
-    protected $_validators = [
+    protected array $_validators = [
         ModalFormPlugin::VALIDATOR_PASSWORD => PasswordValidator::class,
         ModalFormPlugin::VALIDATOR_CHECKBOX => CheckboxValidator::class,
         ModalFormPlugin::VALIDATOR_CONFIRM => ConfirmValidator::class,
@@ -61,7 +62,7 @@ class ModalFormMiddleware implements MiddlewareInterface
 
         if (empty($validator)) {
             // @todo custom exception
-            throw new \Cake\Http\Exception\NotFoundException();
+            throw new NotFoundException();
         }
 
         return new $validator($request, $modalFormData);

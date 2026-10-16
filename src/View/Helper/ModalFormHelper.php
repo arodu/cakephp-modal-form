@@ -21,21 +21,21 @@ class ModalFormHelper extends Helper
      *
      * @var array
      */
-    protected $helpers = ['Form', 'Html', 'Url'];
+    protected array $helpers = ['Form', 'Html', 'Url'];
 
     /**
      * Default configuration.
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'element' => ModalFormPlugin::FORM_CHECKBOX,
         'modalScript' => null,
         'content' => [],
         'defaultBlock' => null,
     ];
 
-    protected $modalScript = <<<MODAL_SCRIPT
+    protected string $modalScript = <<<MODAL_SCRIPT
     $('#:target').on('show.bs.modal', function(event) {
         let button = $(event.relatedTarget)
         let modal = $(this)
@@ -45,7 +45,7 @@ class ModalFormHelper extends Helper
     })
     MODAL_SCRIPT;
 
-    protected $modalScriptSubmit = <<<MODAL_SCRIPT_SUBMIT
+    protected string $modalScriptSubmit = <<<MODAL_SCRIPT_SUBMIT
     $('#:target').on('show.bs.modal', function(event) {
         //let button = $(event.relatedTarget)
         //let modal = $(this)
@@ -109,7 +109,7 @@ class ModalFormHelper extends Helper
      * @param array<string, mixed> $options Array of options and HTML attributes.
      * @return string
      */
-    public function link($title, $url = null, array $options = []): string
+    public function link(string $title, mixed $url = null, array $options = []): string
     {
         $options['data-url'] = $this->Url->build($url);
         $options['data-toggle'] = 'modal';
@@ -130,7 +130,7 @@ class ModalFormHelper extends Helper
      * @param array<string, mixed> $options Array of options and HTML attributes.
      * @return string
      */
-    public function submit($caption = null, array $options = []): string
+    public function submit(?string $caption = null, array $options = []): string
     {
         //$options['data-url'] = $this->Url->build($options['url'] ?? null);
         //$options['data-toggle'] = 'modal';
@@ -150,7 +150,7 @@ class ModalFormHelper extends Helper
      * @param string $element The modal element name.
      * @return array
      */
-    protected function defaultContentData($element): array
+    protected function defaultContentData(string $element): array
     {
         $content = [
             'buttonOk' => __('Submit'),
@@ -188,7 +188,7 @@ class ModalFormHelper extends Helper
      * @param array $content The content data.
      * @return string|null
      */
-    protected function getLabel($content): ?string
+    protected function getLabel(array $content): ?string
     {
         $label = $content['label'] ?? null;
 

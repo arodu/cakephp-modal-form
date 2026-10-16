@@ -14,12 +14,12 @@ class PasswordValidator implements ValidatorInterface
     /**
      * @var \Cake\Http\ServerRequest|null
      */
-    protected $request;
+    protected ?ServerRequest $request = null;
 
     /**
      * @var array
      */
-    protected $modalForm;
+    protected array $modalForm;
 
     /**
      * @param \Cake\Http\ServerRequest|null $request The request.

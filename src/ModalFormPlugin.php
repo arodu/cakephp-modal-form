@@ -53,11 +53,11 @@ class ModalFormPlugin extends BasePlugin
         $routes->plugin(
             'ModalForm',
             ['path' => '/modal-form'],
-            function (RouteBuilder $builder) {
+            function (RouteBuilder $builder): void {
                 // Add custom routes here
 
                 //$builder->fallbacks();
-            }
+            },
         );
         parent::routes($routes);
     }
